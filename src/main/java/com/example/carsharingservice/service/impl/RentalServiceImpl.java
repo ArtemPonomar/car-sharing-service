@@ -1,10 +1,9 @@
 package com.example.carsharingservice.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import com.example.carsharingservice.model.Rental;
 import com.example.carsharingservice.repository.RentalRepository;
 import com.example.carsharingservice.service.RentalService;
+import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,18 +26,8 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public void delete(Long id) {
-        rentalRepository.deleteById(id);
-    }
-
-    @Override
     public void update(Rental rental) {
         rentalRepository.save(rental);
-    }
-
-    @Override
-    public List<Rental> getAll() {
-        return rentalRepository.findAll();
     }
 
     @Override
@@ -47,6 +36,4 @@ public class RentalServiceImpl implements RentalService {
         rental.setActualReturnDate(LocalDateTime.now());
         return rentalRepository.save(rental);
     }
-
-
 }

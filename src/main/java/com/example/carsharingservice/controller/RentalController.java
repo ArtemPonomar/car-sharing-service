@@ -1,6 +1,5 @@
 package com.example.carsharingservice.controller;
 
-import java.time.LocalDateTime;
 import com.example.carsharingservice.dto.mapper.impl.RentalMapper;
 import com.example.carsharingservice.dto.request.RentalRequestDto;
 import com.example.carsharingservice.dto.response.RentalResponseDto;
@@ -28,8 +27,8 @@ public class RentalController {
     @PostMapping
     public RentalResponseDto add(@RequestBody RentalRequestDto requestDto) {
         Rental rental = rentalMapper.toModel(requestDto);
-        Rental savedRental = rentalService.add(rental);
-        Car car = rental.getCar();
+        final Rental savedRental = rentalService.add(rental);
+        final Car car = rental.getCar();
         if (car.getInventory() == 0) {
             throw new NoCarsAvailableException("This car is currently unavailable for rental.");
         }
