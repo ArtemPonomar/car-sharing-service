@@ -24,7 +24,7 @@ public class Car {
     private CarType carType;
     private BigDecimal dailyFee;
 
-    enum CarType {
+    public enum CarType {
         SEDAN,
         SUV,
         HATCHBACK,
