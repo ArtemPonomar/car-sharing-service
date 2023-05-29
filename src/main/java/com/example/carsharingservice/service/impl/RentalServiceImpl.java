@@ -1,5 +1,6 @@
 package com.example.carsharingservice.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import com.example.carsharingservice.model.Rental;
 import com.example.carsharingservice.repository.RentalRepository;
@@ -32,14 +33,20 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public void update(Rental rental) {
-        if (rentalRepository.existsById(rental.getId())) {
-            rentalRepository.saveAndFlush(rental);
-        }
-        throw new RuntimeException("This car doesn't exist");
+        rentalRepository.save(rental);
     }
 
     @Override
     public List<Rental> getAll() {
-        return null;
+        return rentalRepository.findAll();
     }
+
+    @Override
+    public Rental returnRental(Long id) {
+        Rental rental = getById(id);
+        rental.setActualReturnDate(LocalDateTime.now());
+        return rentalRepository.save(rental);
+    }
+
+
 }
