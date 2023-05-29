@@ -6,6 +6,8 @@ import com.example.carsharingservice.service.CarService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class CarServiceImpl implements CarService {
@@ -33,5 +35,10 @@ public class CarServiceImpl implements CarService {
             carRepository.saveAndFlush(car);
         }
         throw new RuntimeException("This car doesn't exist");
+    }
+
+    @Override
+    public List<Car> getAll() {
+        return carRepository.findAll();
     }
 }

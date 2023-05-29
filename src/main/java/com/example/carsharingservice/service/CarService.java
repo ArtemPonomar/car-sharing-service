@@ -2,6 +2,8 @@ package com.example.carsharingservice.service;
 
 import com.example.carsharingservice.model.Car;
 
+import java.util.List;
+
 public interface CarService {
     Car add(Car car);
 
@@ -10,4 +12,6 @@ public interface CarService {
     void delete(Long id);
 
     void update(Car car);
+
+    List<Car> getAll();
 }
