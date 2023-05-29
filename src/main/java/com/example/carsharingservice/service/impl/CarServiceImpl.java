@@ -30,10 +30,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void update(Car car) {
-        if (carRepository.existsById(car.getId())) {
-            carRepository.saveAndFlush(car);
-        }
-        throw new RuntimeException("This car doesn't exist");
+        carRepository.save(car);
     }
 
     @Override
