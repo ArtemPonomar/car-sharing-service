@@ -29,8 +29,9 @@ public class CarController {
     @PostMapping
     @Operation(summary = "Create Car and add to DB")
     public CarResponseDto add(@Schema(description = "Create new car",
-            implementation = CarRequestDto.class)
-                                  @RequestBody CarRequestDto requestDto) {
+            implementation = CarRequestDto.class,
+            requiredMode = Schema.RequiredMode.REQUIRED)
+            @RequestBody CarRequestDto requestDto) {
         return mapper.toDto(carService.save(mapper.toModel(requestDto)));
     }
 
@@ -52,6 +53,7 @@ public class CarController {
     @Operation(summary = "Update product by id")
     public void updateById(@PathVariable Long id,
                                      @Schema(description = "Update car",
+                                     requiredMode = Schema.RequiredMode.REQUIRED,
                                      implementation = CarRequestDto.class)
                                      @RequestBody CarRequestDto requestDto) {
         carService.update(mapper.toModel(requestDto));
