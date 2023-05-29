@@ -3,10 +3,9 @@ package com.example.carsharingservice.service.impl;
 import com.example.carsharingservice.model.Car;
 import com.example.carsharingservice.repository.CarRepository;
 import com.example.carsharingservice.service.CarService;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
