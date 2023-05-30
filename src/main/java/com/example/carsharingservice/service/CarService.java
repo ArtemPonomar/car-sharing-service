@@ -4,7 +4,7 @@ import com.example.carsharingservice.model.Car;
 import java.util.List;
 
 public interface CarService {
-    Car add(Car car);
+    Car save(Car car);
 
     Car getById(Long id);
 
