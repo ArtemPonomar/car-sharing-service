@@ -1,8 +1,7 @@
 package com.example.carsharingservice.service;
 
-import java.util.List;
-import com.example.carsharingservice.model.Car;
 import com.example.carsharingservice.model.User;
+import java.util.List;
 
 public interface UserService {
     User add(User user);
