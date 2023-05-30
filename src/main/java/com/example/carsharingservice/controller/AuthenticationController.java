@@ -1,3 +1,4 @@
+/*
 package com.example.carsharingservice.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,3 +18,4 @@ public class AuthenticationController {
 
     }
 }
+*/
