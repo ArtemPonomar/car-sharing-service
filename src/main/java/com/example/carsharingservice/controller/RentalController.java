@@ -32,7 +32,7 @@ public class RentalController {
         Rental rental = rentalMapper.toModel(requestDto);
         final Rental savedRental = rentalService.add(rental);
         final Car car = rental.getCar();
-        if (car.getInventory() == 0 || car.getInventory() < 0) {
+        if (car.getInventory() == 0) {
             throw new NoCarsAvailableException("This car is currently unavailable for rental.");
         }
         car.setInventory(car.getInventory() - 1);

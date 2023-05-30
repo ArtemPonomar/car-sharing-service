@@ -26,7 +26,6 @@ public class User {
     private String firstName;
     private String lastName;
     private String password;
-    @Enumerated(value = EnumType.STRING)
     private Role role;
     private boolean deleted;
 
