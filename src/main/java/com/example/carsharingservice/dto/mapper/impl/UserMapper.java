@@ -5,7 +5,7 @@ import com.example.carsharingservice.dto.request.UserRequestDto;
 import com.example.carsharingservice.dto.response.UserResponseDto;
 import com.example.carsharingservice.model.User;
 
-public class UserMapper implements DtoMapper <User, UserRequestDto, UserResponseDto> {
+public class UserMapper implements DtoMapper<User, UserRequestDto, UserResponseDto> {
     @Override
     public User toModel(UserRequestDto requestDto) {
         User user = new User();
