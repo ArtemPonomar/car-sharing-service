@@ -8,8 +8,6 @@ public interface RentalService {
 
     Rental getById(Long id);
 
-    void update(Rental rental);
-
     Rental returnRental(Long id);
 
     List<Rental> getByUserIdAndActive(Long userId, Boolean isActive);
