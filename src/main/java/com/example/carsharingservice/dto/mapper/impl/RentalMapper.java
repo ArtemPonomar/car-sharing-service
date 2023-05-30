@@ -4,20 +4,20 @@ import com.example.carsharingservice.dto.mapper.DtoMapper;
 import com.example.carsharingservice.dto.request.RentalRequestDto;
 import com.example.carsharingservice.dto.response.RentalResponseDto;
 import com.example.carsharingservice.model.Rental;
-import com.example.carsharingservice.repository.CarRepository;
-import com.example.carsharingservice.repository.UserRepository;
+import com.example.carsharingservice.service.CarService;
+import com.example.carsharingservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RentalMapper implements DtoMapper<Rental, RentalRequestDto, RentalResponseDto> {
-    private final CarRepository carRepository;
-    private final UserRepository userRepository;
+    private final CarService carService;
+    private final UserService userService;
 
     @Autowired
-    public RentalMapper(CarRepository carRepository, UserRepository userRepository) {
-        this.carRepository = carRepository;
-        this.userRepository = userRepository;
+    public RentalMapper(CarService carService, UserService userService) {
+        this.carService = carService;
+        this.userService = userService;
     }
 
     @Override
@@ -25,8 +25,8 @@ public class RentalMapper implements DtoMapper<Rental, RentalRequestDto, RentalR
         Rental rental = new Rental();
         rental.setRentalDate(requestDto.getRentalDate());
         rental.setReturnDate(requestDto.getReturnDate());
-        rental.setCar(carRepository.findById(requestDto.getCarId()).orElse(null));
-        rental.setUser(userRepository.findById(requestDto.getUserId()).orElse(null));
+        rental.setCar(carService.getById(requestDto.getCarId()));
+        rental.setUser(userService.getById(requestDto.getUserId()));
         return rental;
     }
 

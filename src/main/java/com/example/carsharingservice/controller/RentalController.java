@@ -8,12 +8,15 @@ import com.example.carsharingservice.model.Car;
 import com.example.carsharingservice.model.Rental;
 import com.example.carsharingservice.service.CarService;
 import com.example.carsharingservice.service.RentalService;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -50,6 +53,14 @@ public class RentalController {
         car.setInventory(car.getInventory() + 1);
         carService.update(car);
         return rentalMapper.toDto(rental);
+    }
+
+    @GetMapping
+    public List<RentalResponseDto> getByUserIdAndActive(
+            @RequestParam("user_id") Long userId,
+            @RequestParam("is_active") Boolean isActive) {
+        List<Rental> rentals = rentalService.getByUserIdAndActive(userId, isActive);
+        return rentals.stream().map(rentalMapper::toDto).collect(Collectors.toList());
     }
 
 }

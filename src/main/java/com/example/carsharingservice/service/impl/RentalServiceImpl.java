@@ -4,6 +4,8 @@ import com.example.carsharingservice.model.Rental;
 import com.example.carsharingservice.repository.RentalRepository;
 import com.example.carsharingservice.service.RentalService;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,5 +37,13 @@ public class RentalServiceImpl implements RentalService {
         Rental rental = getById(id);
         rental.setActualReturnDate(LocalDateTime.now());
         return rentalRepository.save(rental);
+    }
+
+    @Override
+    public List<Rental> getByUserIdAndActive(Long userId, Boolean isActive) {
+        return rentalRepository.findAll().stream()
+                .filter(x -> x.getId().equals(userId)
+                        && isActive == (x.getActualReturnDate() == null))
+                .collect(Collectors.toList());
     }
 }
