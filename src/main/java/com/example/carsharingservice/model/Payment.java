@@ -6,6 +6,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.net.URL;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,9 +22,10 @@ import org.hibernate.annotations.Where;
 public class Payment {
     @Id
     @GeneratedValue()
-    private Long sessionId;
     private Long rentalId;
+    private String sessionId;
     private URL url;
+    private BigDecimal paymentAmount;
     @Enumerated(value = EnumType.STRING)
     private Type type;
     @Enumerated(value = EnumType.STRING)
