@@ -2,10 +2,10 @@ package com.example.carsharingservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class,
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class,
         ManagementWebSecurityAutoConfiguration.class})
 public class CarSharingServiceApplication {
     public static void main(String[] args) {
