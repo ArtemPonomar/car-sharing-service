@@ -9,11 +9,15 @@ import jakarta.persistence.Table;
 import java.net.URL;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "payments")
+@SQLDelete(sql = "UPDATE payments SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class Payment {
     @Id
     @GeneratedValue()
@@ -24,6 +28,7 @@ public class Payment {
     private Type type;
     @Enumerated(value = EnumType.STRING)
     private Status status;
+    private boolean deleted = Boolean.FALSE;
 
     enum Status {
         PENDING,
