@@ -4,7 +4,9 @@ import com.example.carsharingservice.dto.mapper.DtoMapper;
 import com.example.carsharingservice.dto.request.UserRequestDto;
 import com.example.carsharingservice.dto.response.UserResponseDto;
 import com.example.carsharingservice.model.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper implements DtoMapper <User, UserRequestDto, UserResponseDto> {
     @Override
     public User toModel(UserRequestDto requestDto) {
