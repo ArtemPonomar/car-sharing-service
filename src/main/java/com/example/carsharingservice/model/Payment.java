@@ -32,12 +32,12 @@ public class Payment {
     private Status status;
     private boolean deleted = Boolean.FALSE;
 
-    enum Status {
+    public enum Status {
         PENDING,
         PAID
     }
 
-    enum Type {
+    public enum Type {
         PAYMENT,
         FINE
     }
