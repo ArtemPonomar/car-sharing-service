@@ -4,12 +4,20 @@ import com.example.carsharingservice.dto.mapper.DtoMapper;
 import com.example.carsharingservice.dto.request.PaymentRequestDto;
 import com.example.carsharingservice.dto.response.PaymentResponseDto;
 import com.example.carsharingservice.model.Payment;
+import com.example.carsharingservice.service.PaymentService;
+import com.example.carsharingservice.service.RentalService;
 
 public class PaymentMapper implements DtoMapper<Payment, PaymentRequestDto, PaymentResponseDto> {
+    private final RentalService rentalService;
+
+    public PaymentMapper(PaymentService paymentService, RentalService rentalService) {
+        this.rentalService = rentalService;
+    }
+
     @Override
     public Payment toModel(PaymentRequestDto requestDto) {
         Payment payment = new Payment();
-        payment.setRentalId(requestDto.getRentalID());
+        payment.setRental(rentalService.getById(requestDto.getRentalId()));
         payment.setSessionId(requestDto.getSessionId());
         payment.setUrl(requestDto.getUrl());
         payment.setPaymentAmount(requestDto.getPaymentAmount());
@@ -22,7 +30,7 @@ public class PaymentMapper implements DtoMapper<Payment, PaymentRequestDto, Paym
     public PaymentResponseDto toDto(Payment model) {
         PaymentResponseDto paymentResponseDto = new PaymentResponseDto();
         paymentResponseDto.setId(model.getId());
-        paymentResponseDto.setRentalId(model.getRentalId());
+        paymentResponseDto.setRentalId(model.getRental().getId());
         paymentResponseDto.setSessionId(model.getSessionId());
         paymentResponseDto.setUrl(model.getUrl());
         paymentResponseDto.setPaymentAmount(model.getPaymentAmount());

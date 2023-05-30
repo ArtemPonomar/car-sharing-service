@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class PaymentRequestDto {
-    private Long rentalID;
+    private Long rentalId;
     private String sessionId;
     private URL url;
     private BigDecimal paymentAmount;
