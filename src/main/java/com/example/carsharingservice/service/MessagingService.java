@@ -1,8 +1,8 @@
 package com.example.carsharingservice.service;
 
+import com.example.carsharingservice.model.User;
+
 public interface MessagingService {
 
-    void sendMessage(String message, Long destination);
-
-    void sendMessageToDevChat(String message);
+    void sendMessageToUser(String message, User user);
 }
