@@ -1,11 +1,9 @@
 package com.example.carsharingservice.service.impl;
 
-import java.util.List;
-import com.example.carsharingservice.model.Car;
 import com.example.carsharingservice.model.User;
 import com.example.carsharingservice.repository.UserRepository;
 import com.example.carsharingservice.service.UserService;
-import lombok.AllArgsConstructor;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

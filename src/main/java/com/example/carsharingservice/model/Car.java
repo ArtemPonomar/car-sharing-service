@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import lombok.Data;
 
@@ -19,9 +20,11 @@ public class Car {
     private Long id;
     private String model;
     private String brand;
+    @PositiveOrZero
     private Integer inventory;
     @Enumerated(value = EnumType.STRING)
     private CarType carType;
+    @PositiveOrZero
     private BigDecimal dailyFee;
 
     public enum CarType {

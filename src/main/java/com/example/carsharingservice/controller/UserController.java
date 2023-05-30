@@ -29,14 +29,13 @@ public class UserController {
         return mapper.toDto(userService.update(foundUser));
     }
 
-    @GetMapping("/me") //todo complete using token param
-    public UserResponseDto getMyProfileInfo(@PathVariable Long id) {
-        return mapper.toDto(userService.getById(id));
-    }
-
-    //todo add filter for this endpint that forbids changes to not me users
-    @PutMapping("/me") //todo complete using token param
+    @PutMapping("/me")
     public UserResponseDto updateUserRole(@RequestBody UserRequestDto userRequestDto) {
         return mapper.toDto(userService.update(mapper.toModel(userRequestDto)));
+    }
+
+    @GetMapping("/me")
+    public UserResponseDto getMyProfileInfo(@PathVariable Long id) {
+        return mapper.toDto(userService.getById(id));
     }
 }

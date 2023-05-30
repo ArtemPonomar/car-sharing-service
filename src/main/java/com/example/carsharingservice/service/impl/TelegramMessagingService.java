@@ -1,14 +1,13 @@
 package com.example.carsharingservice.service.impl;
 
+import com.example.carsharingservice.service.MessagingService;
+import com.google.gson.GsonBuilder;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import com.example.carsharingservice.service.MessagingService;
-import com.google.gson.GsonBuilder;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -57,11 +56,11 @@ public class TelegramMessagingService implements MessagingService {
     }
 
     private static class SendMessage {
-        public Long chat_id;
-        public String text;
+        private Long chatId;
+        private String text;
 
         public SendMessage(Long chatId, String text) {
-            this.chat_id = chatId;
+            this.chatId = chatId;
             this.text = text;
         }
     }
