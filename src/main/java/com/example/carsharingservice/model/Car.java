@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 @Data
@@ -22,11 +23,11 @@ public class Car {
     private Long id;
     private String model;
     private String brand;
-    @Positive
-    @Min(value = 1, message = "Value should be more than 0")
+    @PositiveOrZero
     private Integer inventory;
     @Enumerated(value = EnumType.STRING)
     private CarType carType;
+    @PositiveOrZero
     private BigDecimal dailyFee;
 
     public enum CarType {
