@@ -1,5 +1,6 @@
 package com.example.carsharingservice.service.impl;
 
+import com.example.carsharingservice.exception.DataException;
 import com.example.carsharingservice.model.User;
 import com.example.carsharingservice.repository.UserRepository;
 import com.example.carsharingservice.service.UserService;
@@ -22,6 +23,12 @@ public class UserServiceImpl implements UserService {
     public User getById(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Can't find user by id: " + id));
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() ->
+                new DataException("No users found for email: " + email));
     }
 
     @Override

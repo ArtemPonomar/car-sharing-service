@@ -15,6 +15,7 @@ import java.net.URL;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+
 @Getter
 @Setter
 @EqualsAndHashCode
