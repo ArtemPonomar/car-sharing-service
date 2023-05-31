@@ -1,67 +1,86 @@
 package com.example.carsharingservice.service.impl;
 
+import com.example.carsharingservice.exception.DataException;
+import com.example.carsharingservice.model.User;
 import com.example.carsharingservice.service.MessagingService;
-import com.google.gson.GsonBuilder;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.example.carsharingservice.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Service
-public class TelegramMessagingService implements MessagingService {
-    private final String token;
-    private final Long devChatId;
+@RequiredArgsConstructor
+public class TelegramMessagingService
+        extends TelegramLongPollingBot
+        implements MessagingService {
 
-    public TelegramMessagingService(@Value("${telegram.bot.token}") String token,
-                                    @Value("${telegram.bot.devChatId}") Long devChatId) {
-        this.token = token;
-        this.devChatId = devChatId;
-    }
+    @Value("${telegram.bot.name}")
+    private String botName;
+    @Value("${telegram.bot.token}")
+    private String botToken;
+    private final UserService userService;
 
-    public void sendMessageToDevChat(String message) {
-        sendMessage(message, devChatId);
-    }
-
-    public void sendMessage(String text, Long destination) {
-        try {
-            HttpURLConnection connection = (HttpURLConnection) new URL("https://api.telegram.org/bot" + token + "/sendMessage").openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json; utf-8");
-            connection.setRequestProperty("Accept", "application/json");
-            connection.setConnectTimeout(5000);
-            connection.setDoOutput(true);
-
-            final SendMessage message = new SendMessage(devChatId, text);
-            String json = new GsonBuilder().create().toJson(message);
-            try (OutputStream outputStream = connection.getOutputStream()) {
-                byte[] input = json.getBytes("utf-8");
-                outputStream.write(input, 0, input.length);
-            }
-
-            try (BufferedReader br = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream(), "utf-8"))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine = null;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
+    @Override
+    public void onUpdateReceived(Update update) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
+            SendMessage response = new SendMessage();
+            response.setChatId(update.getMessage().getChatId());
+            if (update.getMessage().getText().startsWith("/subscribe")) {
+                try {
+                    User user = userService.getByEmail(update.getMessage().getText().split(" ")[1]);
+                    user.setTelegramId(update.getMessage().getChatId());
+                    userService.update(user);
+                } catch (DataException e) {
+                    response.setText(e.getMessage());
+                    try {
+                        execute(response);
+                        return;
+                    } catch (TelegramApiException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
+                response.setText("You have successfully subscribed to messaging service!");
+            } else {
+                response.setText("Unrecognized command! \n"
+                        + "Use this command to subscribe: \n"
+                        + "/subscribe your.email@gmail.com");
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            try {
+                execute(response);
+            } catch (TelegramApiException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    private static class SendMessage {
-        private Long chatId;
-        private String text;
+    @Override
+    public String getBotUsername() {
+        return botName;
+    }
 
-        public SendMessage(Long chatId, String text) {
-            this.chatId = chatId;
-            this.text = text;
+    @Override
+    public String getBotToken() {
+        return botToken;
+    }
+
+    @Override
+    public void sendMessageToUser(String text, User user) {
+        if (user.getTelegramId() == null) {
+            throw new DataException(
+                    "Cannot send message to user with id %d no telegramId detected."
+                            .formatted(user.getId()));
+        }
+        try {
+            SendMessage message = new SendMessage();
+            message.setText(text);
+            message.setChatId(user.getTelegramId());
+            execute(message);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
         }
     }
 }

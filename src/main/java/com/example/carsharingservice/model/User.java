@@ -24,8 +24,10 @@ public class User {
     private String firstName;
     private String lastName;
     private String password;
+    @Enumerated(EnumType.STRING)
     private Role role;
-    private boolean deleted;
+    private Long telegramId;
+    private boolean deleted = Boolean.FALSE;
 
     public enum Role {
         MANAGER,
