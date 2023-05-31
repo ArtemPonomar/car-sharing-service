@@ -30,7 +30,14 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void update(Car car) {
-        carRepository.save(car);
+        if (carRepository.findById(car.getId()).isPresent()) {
+            Car updateCar = carRepository.findById(car.getId()).get();
+            updateCar.setCarType(car.getCarType());
+            updateCar.setDailyFee(car.getDailyFee());
+            updateCar.setBrand(car.getBrand());
+            updateCar.setModel(car.getModel());
+            carRepository.save(updateCar);
+        }
     }
 
     @Override
