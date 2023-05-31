@@ -12,7 +12,7 @@ public class StripeServiceImpl implements StripeService {
     private String stripeSecretKey;
 
     @Override
-    public SessionCreateParams createPaymentSession() {
+    public SessionCreateParams createPaymentSession(Long rentalId) {
         Stripe.apiKey = stripeSecretKey;
 
         SessionCreateParams.Builder builder = new SessionCreateParams.Builder();
