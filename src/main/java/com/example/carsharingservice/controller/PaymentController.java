@@ -39,6 +39,8 @@ public class PaymentController {
             payment.setUrl(new URL(sessionUrl));
             payment.setRental(rentalService.getById(paymentInfoRequestDto.getRentalId()));
             payment.setPaymentAmount(amountToPay);
+            payment.setStatus(Payment.Status.PENDING);
+            payment.setType(Payment.Type.PAYMENT);
             paymentService.save(payment);
             return new RedirectView(sessionUrl);
         } catch (StripeException | MalformedURLException e) {
