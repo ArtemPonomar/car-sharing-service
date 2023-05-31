@@ -15,9 +15,6 @@ import java.net.URL;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
-
 @Getter
 @Setter
 @EqualsAndHashCode
