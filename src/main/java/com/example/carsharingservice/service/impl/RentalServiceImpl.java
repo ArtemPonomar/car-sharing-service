@@ -28,11 +28,6 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public void update(Rental rental) {
-        rentalRepository.save(rental);
-    }
-
-    @Override
     public Rental returnRental(Long id) {
         Rental rental = getById(id);
         rental.setActualReturnDate(LocalDateTime.now());
