@@ -2,19 +2,22 @@ package com.example.carsharingservice.service.impl;
 
 import com.example.carsharingservice.model.Rental;
 import com.example.carsharingservice.repository.RentalRepository;
+import com.example.carsharingservice.service.MessagingService;
 import com.example.carsharingservice.service.RentalService;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RentalServiceImpl implements RentalService {
-    private final RentalRepository rentalRepository;
 
-    public RentalServiceImpl(RentalRepository rentalRepository) {
-        this.rentalRepository = rentalRepository;
-    }
+    private final RentalRepository rentalRepository;
+    private final MessagingService messagingService;
 
     @Override
     public Rental add(Rental rental) {
@@ -40,5 +43,19 @@ public class RentalServiceImpl implements RentalService {
                 .filter(x -> x.getId().equals(userId)
                         && isActive == (x.getActualReturnDate() == null))
                 .collect(Collectors.toList());
+    }
+
+    @Scheduled(cron = "0 0 */1 * * *")
+    public void checkOverdueRentals() {
+        rentalRepository.findOverdueRentals(LocalDateTime.now()).forEach(r ->
+                messagingService.sendMessageToUser(
+                        ("Your vehicle rent for %s %s is overdue since %s.\n "
+                                + "See rental with id:%d for details.")
+                                .formatted(r.getCar().getBrand(),
+                                        r.getCar().getModel(),
+                                        r.getReturnDate().format(
+                                                DateTimeFormatter.ofPattern("dd-MM-yyyy")),
+                                        r.getId()), r.getUser())
+        );
     }
 }
