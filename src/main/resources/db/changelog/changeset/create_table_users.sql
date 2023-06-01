@@ -1,9 +1,10 @@
 CREATE TABLE IF NOT EXISTS users (
-id BIGINT PRIMARY KEY AUTO_INCREMENT,
-email VARCHAR(255) NOT NULL,
-first_name VARCHAR(255) NOT NULL,
-last_name VARCHAR(255) NOT NULL,
-password VARCHAR(255) NOT NULL,
-role VARCHAR(255) NOT NULL,
-telegram_id BIGINT
+                       id bigint NOT NULL AUTO_INCREMENT,
+                       telegram_id bigint DEFAULT NULL,
+                       email varchar(255) DEFAULT NULL,
+                       first_name varchar(255) DEFAULT NULL,
+                       last_name varchar(255) DEFAULT NULL,
+                       password varchar(255) DEFAULT NULL,
+                       role varchar(255) DEFAULT NULL,
+                       PRIMARY KEY (id)
 );
