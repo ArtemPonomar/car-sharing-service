@@ -1,6 +1,5 @@
 package com.example.carsharingservice.dto.request;
 
-import com.example.carsharingservice.model.User;
 import lombok.Data;
 
 @Data

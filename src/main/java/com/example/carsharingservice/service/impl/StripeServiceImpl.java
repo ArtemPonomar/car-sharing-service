@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class StripeServiceImpl implements StripeService {
-    private static final String PAYMENT_URL = "http://localhost:8080/payments";
+    private static final String PAYMENT_URL = "http://localhost:6868/payments";
     @Value("${STRIPE_SECRET_KEY}")
     private String stripeSecretKey;
     private final PaymentService paymentService;
