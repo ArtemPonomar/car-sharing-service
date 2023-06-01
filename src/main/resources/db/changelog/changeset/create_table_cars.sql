@@ -1,8 +1,9 @@
 CREATE TABLE IF NOT EXISTS cars (
-id BIGINT PRIMARY KEY AUTO_INCREMENT,
-model VARCHAR(255) NOT NULL,
-brand VARCHAR(255) NOT NULL,
-inventory INT NOT NULL,
-car_type ENUM('SEDAN', 'SUV', 'HATCHBACK', 'UNIVERSAL') NOT NULL,
-daily_fee DECIMAL(10, 2) NOT NULL
+                      daily_fee decimal(38,2) DEFAULT NULL,
+                      inventory int DEFAULT NULL,
+                      id bigint NOT NULL AUTO_INCREMENT,
+                      brand varchar(255) DEFAULT NULL,
+                      car_type varchar(255) DEFAULT NULL,
+                      model varchar(255) DEFAULT NULL,
+                      PRIMARY KEY (id)
 );
