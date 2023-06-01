@@ -70,9 +70,9 @@ public class TelegramMessagingService
     @Override
     public void sendMessageToUser(String text, User user) {
         if (user.getTelegramId() == null) {
-            throw new DataException(
-                    "Cannot send message to user with id %d no telegramId detected."
-                            .formatted(user.getId()));
+            System.out.printf("Cannot send message to user with id"
+                    + " %d no telegramId detected.\n", user.getId());
+            return;
         }
         try {
             SendMessage message = new SendMessage();
