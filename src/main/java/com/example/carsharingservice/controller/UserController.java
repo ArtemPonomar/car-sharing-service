@@ -7,6 +7,7 @@ import com.example.carsharingservice.model.User;
 import com.example.carsharingservice.service.MessagingService;
 import com.example.carsharingservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,17 +34,18 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public UserResponseDto getMyProfileInfo(@RequestParam Long id) {
-        return mapper.toDto(userService.getById(id));
+    public UserResponseDto getMyProfileInfo(Authentication auth) {
+        String name = auth.getName();
+        return mapper.toDto(userService.getByEmail(name));
     }
 
     @PutMapping("/me")
     public UserResponseDto updateMyProfileInfo(@RequestBody UserRequestDto userRequestDto) {
-        return mapper.toDto(userService.update(mapper.toModel(userRequestDto)));
-    }
-
-    @PostMapping
-    public UserResponseDto createUser(@RequestBody UserRequestDto requestDto) {
-        return mapper.toDto(userService.add(mapper.toModel(requestDto)));
+        User user = userService.getByEmail(userRequestDto.getEmail());
+        user.setEmail(userRequestDto.getEmail());
+        user.setTelegramId(userRequestDto.getTelegramId());
+        user.setFirstName(userRequestDto.getFirstName());
+        user.setLastName(userRequestDto.getLastName());
+        return mapper.toDto(userService.update(user));
     }
 }
