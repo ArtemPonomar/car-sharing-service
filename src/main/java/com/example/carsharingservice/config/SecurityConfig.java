@@ -42,8 +42,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/rentals", "/rentals/{id}")
                                 .hasRole("MANAGER")
                                 .requestMatchers(HttpMethod.GET, "/payments/success",
-                                        "/payments/cancel")
-                                    .hasAnyRole("MANAGER", "CUSTOMER")
+                                        "/payments/cancel",
+                                        "/payments/success?**")
+                                    .permitAll()
                                 .requestMatchers(HttpMethod.GET,"/cars").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/cars/{id}").hasRole("MANAGER")
                                 .requestMatchers(HttpMethod.PUT, "/users/{id}/role")
@@ -52,6 +53,9 @@ public class SecurityConfig {
                                     .hasAnyRole("MANAGER", "CUSTOMER")
                                 .requestMatchers(HttpMethod.DELETE, "/cars/{id}").hasRole("MANAGER")
                                 .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/swagger-ui.html",
+                                        "/swagger-ui/", "/v3/api-docs/",
+                                        "/swagger-resources/**", "/swagger-ui/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
