@@ -6,7 +6,9 @@ import com.example.carsharingservice.dto.response.PaymentResponseDto;
 import com.example.carsharingservice.model.Payment;
 import com.example.carsharingservice.service.PaymentService;
 import com.example.carsharingservice.service.RentalService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PaymentMapper implements DtoMapper<Payment, PaymentRequestDto, PaymentResponseDto> {
     private final RentalService rentalService;
 
