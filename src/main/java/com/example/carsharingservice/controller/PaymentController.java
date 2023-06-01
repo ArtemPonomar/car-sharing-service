@@ -77,8 +77,8 @@ public class PaymentController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get list of payments by user id")
-    public List<PaymentResponseDto> getUserPayments(@PathVariable Long userId) {
-        return paymentService.getPaymentsByUserId(userId).stream()
+    public List<PaymentResponseDto> getUserPayments(@PathVariable Long id) {
+        return paymentService.getPaymentsByUserId(id).stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
