@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FinePaymentHandler implements PaymentHandler {
-    private static final BigDecimal FINE_MULTIPLIER = BigDecimal.valueOf(1);
+    private static final BigDecimal FINE_MULTIPLIER = BigDecimal.valueOf(1.2);
     @Override
-    public BigDecimal calculateTotalAmount(BigDecimal amount, long overdueDays) {
-        return  amount.multiply(FINE_MULTIPLIER);
+    public BigDecimal calculateTotalAmount(BigDecimal dailyFee, BigDecimal overdueDays) {
+        return  dailyFee.multiply(FINE_MULTIPLIER).multiply(overdueDays);
     }
 
     @Override
-    public boolean isApplecable(Payment.Type type) {
+    public boolean isApplicable(Payment.Type type) {
         return type.equals(Payment.Type.FINE);
     }
 }

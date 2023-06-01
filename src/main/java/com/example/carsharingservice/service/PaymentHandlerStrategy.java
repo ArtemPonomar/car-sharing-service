@@ -12,7 +12,7 @@ public class PaymentHandlerStrategy {
     private List<PaymentHandler> paymentHandlers;
 
     public PaymentHandler getHandler(Payment.Type type) {
-        return paymentHandlers.stream().filter(h -> h.isApplecable(type))
+        return paymentHandlers.stream().filter(h -> h.isApplicable(type))
                 .findFirst().orElseThrow(NoSuchElementException::new);
     }
 }

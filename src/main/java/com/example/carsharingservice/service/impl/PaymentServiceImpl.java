@@ -57,9 +57,14 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public BigDecimal calculatePaymentAmount(Long rentalId, Payment.Type type) {
         Rental rental = rentalService.getById(rentalId);
-        long days = Duration.between(rental.getReturnDate(), rental.getRentalDate()).toDays();
-        long overdueDays = Duration.between(rental.getActualReturnDate(), rental.getReturnDate()).toDays();
-        BigDecimal rentalPayment = BigDecimal.valueOf(days).multiply(rental.getCar().getDailyFee());
-        return strategy.getHandler(type).calculateTotalAmount(rentalPayment, overdueDays);
+        BigDecimal days = BigDecimal.valueOf(Duration.between(
+                rental.getReturnDate(), rental.getRentalDate()).toDays());
+        BigDecimal overdueDays = BigDecimal.valueOf(
+                Duration.between(rental.getActualReturnDate(),
+                        rental.getReturnDate()).toDays());
+        BigDecimal rentalPayment = days.multiply(rental.getCar().getDailyFee());
+        return strategy.getHandler(type)
+                .calculateTotalAmount(rental.getCar().getDailyFee(), overdueDays)
+                .add(rentalPayment);
     }
 }

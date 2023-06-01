@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import com.example.carsharingservice.model.Payment;
 
 public interface PaymentHandler {
-    BigDecimal calculateTotalAmount(BigDecimal amount, long overdueDays);
+    BigDecimal calculateTotalAmount(BigDecimal dailyFee, BigDecimal overdueDays);
 
-    boolean isApplecable(Payment.Type type);
+    boolean isApplicable(Payment.Type type);
 }
