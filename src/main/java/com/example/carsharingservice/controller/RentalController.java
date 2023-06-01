@@ -10,6 +10,8 @@ import com.example.carsharingservice.service.CarService;
 import com.example.carsharingservice.service.RentalService;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,7 @@ public class RentalController {
     private final CarService carService;
 
     @PostMapping
+    @Operation(summary = "Create rental for MANAGER")
     public RentalResponseDto add(@RequestBody RentalRequestDto requestDto) {
         Rental rental = rentalMapper.toModel(requestDto);
         final Rental savedRental = rentalService.add(rental);
@@ -41,12 +44,14 @@ public class RentalController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get rentals by id for MANAGER")
     public RentalResponseDto getById(@PathVariable Long id) {
         Rental rental = rentalService.getById(id);
         return rentalMapper.toDto(rental);
     }
 
     @PostMapping("/{id}/return")
+    @Operation(summary = "Return car from rental by id for MANAGER")
     public RentalResponseDto returnRental(@PathVariable Long id) {
         Rental rental = rentalService.returnRental(id);
         Car car = rental.getCar();
@@ -56,6 +61,7 @@ public class RentalController {
     }
 
     @GetMapping
+    @Operation(summary = "Get list of renatal by user id and on date return status")
     public List<RentalResponseDto> getByUserIdAndActive(
             @RequestParam("user_id") Long userId,
             @RequestParam("is_active") Boolean isActive) {
