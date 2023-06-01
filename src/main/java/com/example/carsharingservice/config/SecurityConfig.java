@@ -54,7 +54,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "/cars/{id}").hasRole("MANAGER")
                                 .requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/swagger-ui.html",
-                                        "/swagger-ui/", "/v3/api-docs/",
+                                        "/swagger-ui/**", "/v3/api-docs/**",
                                         "/swagger-resources/**", "/swagger-ui/**").permitAll()
                                 .anyRequest().authenticated()
                 )
