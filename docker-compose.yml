@@ -28,7 +28,7 @@ services:
         "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL8Dialect",
         "telegram.bot.name" : "${BOT_NAME}",
         "telegram.bot.token" : "${BOT_TOKEN}",
-        "spring.jpa.hibernate.ddl-auto" : "validate"
+        "spring.jpa.hibernate.ddl-auto" : "validate",
         "STRIPE_SECRET_KEY" : "${STRIPE_SECRET_KEY}",
         "secret-jwt-key" : "${SECRET}",
         "jwt-expire-length" : "${EXPIRE}"
