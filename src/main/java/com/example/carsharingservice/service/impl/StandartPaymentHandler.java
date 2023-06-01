@@ -5,7 +5,9 @@ import com.example.carsharingservice.model.Rental;
 import com.example.carsharingservice.service.PaymentHandler;
 import java.math.BigDecimal;
 import java.time.Duration;
+import org.springframework.stereotype.Service;
 
+@Service
 public class StandartPaymentHandler implements PaymentHandler {
     @Override
     public BigDecimal calculateTotalAmount(Rental rental) {
