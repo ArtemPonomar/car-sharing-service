@@ -1,7 +1,6 @@
 package com.example.carsharingservice.service.impl;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -57,14 +56,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public BigDecimal calculatePaymentAmount(Long rentalId, Payment.Type type) {
         Rental rental = rentalService.getById(rentalId);
-        BigDecimal days = BigDecimal.valueOf(Duration.between(
-                rental.getReturnDate(), rental.getRentalDate()).toDays());
-        BigDecimal overdueDays = BigDecimal.valueOf(
-                Duration.between(rental.getActualReturnDate(),
-                        rental.getReturnDate()).toDays());
-        BigDecimal rentalPayment = days.multiply(rental.getCar().getDailyFee());
         return strategy.getHandler(type)
-                .calculateTotalAmount(rental.getCar().getDailyFee(), overdueDays)
-                .add(rentalPayment);
+                .calculateTotalAmount(rental)
+                .multiply(BigDecimal.valueOf(100));
     }
 }
