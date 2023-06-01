@@ -22,4 +22,5 @@ public interface PaymentService {
     boolean isSessionPaid(String sessionId);
 
     Payment findBySessionId(String sessionId);
+
 }
