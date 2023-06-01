@@ -1,10 +1,10 @@
 package com.example.carsharingservice.service.impl;
 
-import java.math.BigDecimal;
-import java.time.Duration;
 import com.example.carsharingservice.model.Payment;
 import com.example.carsharingservice.model.Rental;
 import com.example.carsharingservice.service.PaymentHandler;
+import java.math.BigDecimal;
+import java.time.Duration;
 
 public class StandartPaymentHandler implements PaymentHandler {
     @Override
