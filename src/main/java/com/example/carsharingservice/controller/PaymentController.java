@@ -10,14 +10,16 @@ import com.example.carsharingservice.service.StripeService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import io.swagger.v3.oas.annotations.Operation;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +33,7 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final PaymentMapper mapper;
 
-    @GetMapping
+    @PostMapping
     @Operation(summary = "Create payment session and get URL for payment")
     public PaymentResponseDto createStripeSession(
             @RequestBody PaymentInfoRequestDto paymentInfoRequestDto) {
@@ -63,7 +65,7 @@ public class PaymentController {
     ) {
         Payment payment = paymentService.findBySessionId(sessionId);
 
-        if (!paymentService.isSessionPaid(sessionId)) {
+        if (paymentService.isSessionPaid(sessionId)) {
             return "invalid payment";
         }
 
@@ -73,9 +75,9 @@ public class PaymentController {
         return "Your payment was successful!";
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     @Operation(summary = "Get list of payments by user id")
-    public List<PaymentResponseDto> getUserPayments(@RequestParam Long userId) {
+    public List<PaymentResponseDto> getUserPayments(@PathVariable Long userId) {
         return paymentService.getPaymentsByUserId(userId).stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());

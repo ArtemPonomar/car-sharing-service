@@ -61,7 +61,6 @@ public class PaymentServiceImpl implements PaymentService {
                 .multiply(BigDecimal.valueOf(100));
     }
 
-
     @Override
     public Payment findBySessionId(String sessionId) {
         return paymentRepository.findBySessionId(sessionId);
