@@ -18,4 +18,8 @@ public interface PaymentService {
     public List<Payment> getPaymentsByUserId(Long userId);
 
     BigDecimal calculatePaymentAmount(Long rentalId, Payment.Type type);
+
+    boolean isSessionPaid(String sessionId);
+
+    Payment findBySessionId(String sessionId);
 }
