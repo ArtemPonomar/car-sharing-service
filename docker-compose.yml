@@ -1,5 +1,4 @@
 version: "3.8"
-
 services:
   mysqldb:
     platform: linux/x86_64
@@ -25,6 +24,10 @@ services:
         "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC",
         "spring.datasource.username" : "$MYSQLDB_USER",
         "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL8Dialect",
+        "spring.jpa.hibernate.ddl-auto" : "validate",
+        "spring.liquibase.enabled" : "true",
         "telegram.bot.name" : "${BOT_NAME}",
-        "telegram.bot.token" : "${BOT_TOKEN}"
+        "telegram.bot.token" : "${BOT_TOKEN}",
+        "STRIPE_SECRET_KEY" : "${STRIPE_SECRET_KEY}"
       }'
