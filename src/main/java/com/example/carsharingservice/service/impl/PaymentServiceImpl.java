@@ -60,4 +60,17 @@ public class PaymentServiceImpl implements PaymentService {
                 .calculateTotalAmount(rental)
                 .multiply(BigDecimal.valueOf(100));
     }
+
+
+    @Override
+    public Payment findBySessionId(String sessionId) {
+        return paymentRepository.findBySessionId(sessionId);
+    }
+
+    @Override
+    public boolean isSessionPaid(String sessionId) {
+        return paymentRepository.findBySessionId(sessionId)
+                .getStatus()
+                .equals(Payment.Status.PAID);
+    }
 }
