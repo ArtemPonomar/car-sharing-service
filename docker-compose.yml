@@ -26,6 +26,11 @@ services:
         "spring.datasource.username" : "$MYSQLDB_USER",
         "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
         "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL8Dialect",
-        "spring.jpa.hibernate.ddl-auto" : "create"
+        "telegram.bot.name" : "${BOT_NAME}",
+        "telegram.bot.token" : "${BOT_TOKEN}",
+        "spring.jpa.hibernate.ddl-auto" : "validate"
+        "STRIPE_SECRET_KEY" : "${STRIPE_SECRET_KEY}",
+        "secret-jwt-key" : "${SECRET}",
+        "jwt-expire-length" : "${EXPIRE}"
       }'
 

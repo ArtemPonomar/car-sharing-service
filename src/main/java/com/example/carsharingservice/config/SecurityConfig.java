@@ -39,8 +39,10 @@ public class SecurityConfig {
                                         "/users/me",
                                         "/cars/{id}")
                                     .hasAnyRole("MANAGER", "CUSTOMER")
-                                .requestMatchers(HttpMethod.GET, "/rentals", "/rentals/{id}").hasRole("MANAGER")
-                                .requestMatchers(HttpMethod.GET, "/payments/success", "/payments/cancel")
+                                .requestMatchers(HttpMethod.GET, "/rentals", "/rentals/{id}")
+                                .hasRole("MANAGER")
+                                .requestMatchers(HttpMethod.GET, "/payments/success",
+                                        "/payments/cancel")
                                     .hasAnyRole("MANAGER", "CUSTOMER")
                                 .requestMatchers(HttpMethod.GET,"/cars").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/cars/{id}").hasRole("MANAGER")
