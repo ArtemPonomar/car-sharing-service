@@ -27,7 +27,12 @@ public class User {
     private Long telegramId;
 
     public enum Role {
-        MANAGER,
-        CUSTOMER
+        MANAGER("MANAGER"),
+        CUSTOMER("CUSTOMER");
+        private final String val;
+
+        Role(String val) {
+            this.val = val;
+        }
     }
 }
