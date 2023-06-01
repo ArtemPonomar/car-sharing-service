@@ -37,8 +37,7 @@ public class SecurityConfig {
                                     .hasAnyRole("MANAGER", "CUSTOMER")
                                 .requestMatchers(HttpMethod.GET,
                                         "/users/me",
-                                        "/cars/{id}",
-                                        "/payments")
+                                        "/cars/{id}")
                                     .hasAnyRole("MANAGER", "CUSTOMER")
                                 .requestMatchers(HttpMethod.GET, "/rentals", "/rentals/{id}").hasRole("MANAGER")
                                 .requestMatchers(HttpMethod.GET, "/payments/success", "/payments/cancel")

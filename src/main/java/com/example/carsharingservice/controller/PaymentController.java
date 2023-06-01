@@ -75,6 +75,12 @@ public class PaymentController {
         return "Your payment was successful!";
     }
 
+    @GetMapping("/cancel")
+    @Operation(summary = "Cancel payment")
+    public String cancelPayment() {
+        return "Payment was canceled! But this payment page active for 24 hours.";
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "Get list of payments by user id")
     public List<PaymentResponseDto> getUserPayments(@PathVariable Long id) {

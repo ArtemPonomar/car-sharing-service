@@ -6,6 +6,7 @@ import com.example.carsharingservice.dto.response.UserLoginResponseDto;
 import com.example.carsharingservice.model.User;
 import com.example.carsharingservice.security.AuthenticationService;
 import com.example.carsharingservice.security.jwt.JwtTokenProvider;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "Register page")
     public void registerNewUser(
             @RequestBody UserRegistrationRequestDto userRegistrationRequestDto
     ) {
@@ -36,6 +38,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Login page")
     public UserLoginResponseDto login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
         User user = authenticationService.login(userLoginRequestDto.getEmail(),
                 userLoginRequestDto.getPassword());

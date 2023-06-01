@@ -6,6 +6,7 @@ import com.example.carsharingservice.dto.response.UserResponseDto;
 import com.example.carsharingservice.model.User;
 import com.example.carsharingservice.service.MessagingService;
 import com.example.carsharingservice.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ public class UserController {
     private final DtoMapper<User, UserRequestDto, UserResponseDto> mapper;
 
     @PutMapping("/{id}/role")
+    @Operation(summary = "Change role for user")
     public UserResponseDto updateUserRole(@PathVariable Long id, @RequestParam User.Role userRole) {
         User foundUser = userService.getById(id);
         foundUser.setRole(userRole);
@@ -34,12 +36,14 @@ public class UserController {
     }
 
     @GetMapping("/me")
+    @Operation(summary = "Get info about authorized user")
     public UserResponseDto getMyProfileInfo(Authentication auth) {
         String name = auth.getName();
         return mapper.toDto(userService.getByEmail(name));
     }
 
     @PutMapping("/me")
+    @Operation(summary = "Update info about authorized user")
     public UserResponseDto updateMyProfileInfo(@RequestBody UserRequestDto userRequestDto) {
         User user = userService.getByEmail(userRequestDto.getEmail());
         user.setEmail(userRequestDto.getEmail());
