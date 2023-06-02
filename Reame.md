@@ -87,6 +87,6 @@ Please ensure that all necessary configurations are correctly set up before runn
 - Artem Grunin
 - Mykhailo Moskalenko
 - Yurii Turchyn
+- Oleksandr Koval
 - Artem Ponomarenko
 - Serhii Sinilov
-
