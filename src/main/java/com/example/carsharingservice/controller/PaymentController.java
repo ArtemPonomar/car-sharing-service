@@ -5,8 +5,10 @@ import com.example.carsharingservice.dto.request.PaymentInfoRequestDto;
 import com.example.carsharingservice.dto.request.PaymentRequestDto;
 import com.example.carsharingservice.dto.response.PaymentResponseDto;
 import com.example.carsharingservice.model.Payment;
+import com.example.carsharingservice.service.MessagingService;
 import com.example.carsharingservice.service.PaymentService;
 import com.example.carsharingservice.service.StripeService;
+import com.example.carsharingservice.service.UserService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
@@ -32,6 +34,8 @@ public class PaymentController {
     private final StripeService stripeService;
     private final PaymentService paymentService;
     private final PaymentMapper mapper;
+    private final MessagingService messagingService;
+    private final UserService userService;
 
     @PostMapping
     @Operation(summary = "Create payment session and get URL for payment")
@@ -71,6 +75,10 @@ public class PaymentController {
 
         payment.setStatus(Payment.Status.PAID);
         paymentService.update(payment);
+
+        messagingService.sendMessageToUser(
+                "Your payment was successful!",
+                userService.findUserByPaymentId(payment.getId()));
 
         return "Your payment was successful!";
     }
