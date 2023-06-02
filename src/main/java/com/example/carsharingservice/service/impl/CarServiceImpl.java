@@ -4,6 +4,7 @@ import com.example.carsharingservice.model.Car;
 import com.example.carsharingservice.repository.CarRepository;
 import com.example.carsharingservice.service.CarService;
 import java.util.List;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +31,10 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void update(Car car) {
-        if (carRepository.findById(car.getId()).isPresent()) {
-            Car updateCar = carRepository.findById(car.getId()).get();
+        Optional<Car> optionalCar = carRepository.findById(car.getId());
+
+        if (optionalCar.isPresent()) {
+            Car updateCar = optionalCar.get();
             updateCar.setCarType(car.getCarType());
             updateCar.setDailyFee(car.getDailyFee());
             updateCar.setBrand(car.getBrand());
