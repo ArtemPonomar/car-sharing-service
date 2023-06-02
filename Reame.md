@@ -4,8 +4,8 @@
 - [Features](#features)
 - [Project Structure](#project-structure)
 - [Technologies](#technologies)
-- [How to Run and Test](#how-to-run-and-test)
-- [Authors](#authors)
+- [How to Run](#how-to-run)
+- [Our team](#our-team)
 
 ### Description
 Car-Sharing-Service is a RESTful web application designed to solve car rental tasks.
