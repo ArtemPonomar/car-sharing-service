@@ -56,7 +56,9 @@ public class CarController {
                                      requiredMode = Schema.RequiredMode.REQUIRED,
                                      implementation = CarRequestDto.class)
                                      @RequestBody CarRequestDto requestDto) {
-        carService.update(mapper.toModel(requestDto));
+        Car car = mapper.toModel(requestDto);
+        car.setId(id);
+        carService.update(car);
     }
 
     @DeleteMapping("/{id}")

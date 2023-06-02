@@ -9,15 +9,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "users")
-@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +25,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
     private Long telegramId;
-    private boolean deleted = Boolean.FALSE;
 
     public enum Role {
-        MANAGER,
-        CUSTOMER
+        MANAGER("MANAGER"),
+        CUSTOMER("CUSTOMER");
+        private final String val;
+
+        Role(String val) {
+            this.val = val;
+        }
     }
 }

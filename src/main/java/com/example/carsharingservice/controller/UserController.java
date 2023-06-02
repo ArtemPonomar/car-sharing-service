@@ -6,7 +6,9 @@ import com.example.carsharingservice.dto.response.UserResponseDto;
 import com.example.carsharingservice.model.User;
 import com.example.carsharingservice.service.MessagingService;
 import com.example.carsharingservice.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,6 +27,7 @@ public class UserController {
     private final DtoMapper<User, UserRequestDto, UserResponseDto> mapper;
 
     @PutMapping("/{id}/role")
+    @Operation(summary = "Change role for user")
     public UserResponseDto updateUserRole(@PathVariable Long id, @RequestParam User.Role userRole) {
         User foundUser = userService.getById(id);
         foundUser.setRole(userRole);
@@ -32,12 +35,20 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public UserResponseDto getMyProfileInfo(@RequestParam Long id) {
-        return mapper.toDto(userService.getById(id));
+    @Operation(summary = "Get info about authorized user")
+    public UserResponseDto getMyProfileInfo(Authentication auth) {
+        String name = auth.getName();
+        return mapper.toDto(userService.getByEmail(name));
     }
 
     @PutMapping("/me")
+    @Operation(summary = "Update info about authorized user")
     public UserResponseDto updateMyProfileInfo(@RequestBody UserRequestDto userRequestDto) {
-        return mapper.toDto(userService.update(mapper.toModel(userRequestDto)));
+        User user = userService.getByEmail(userRequestDto.getEmail());
+        user.setEmail(userRequestDto.getEmail());
+        user.setTelegramId(userRequestDto.getTelegramId());
+        user.setFirstName(userRequestDto.getFirstName());
+        user.setLastName(userRequestDto.getLastName());
+        return mapper.toDto(userService.update(user));
     }
 }
