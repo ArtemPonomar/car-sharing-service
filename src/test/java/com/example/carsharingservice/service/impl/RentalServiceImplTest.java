@@ -76,7 +76,7 @@ class RentalServiceImplTest {
 
         rentals.add(rental);
 
-        when(rentalRepository.findOverdueRentals(any(LocalDateTime.class))).thenReturn(rentals);
+        when(rentalRepository.findOverdueRentals()).thenReturn(rentals);
 
         rentalService.checkOverdueRentals();
 

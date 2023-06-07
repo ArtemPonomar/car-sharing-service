@@ -70,6 +70,9 @@ public class PaymentController {
         Payment payment = paymentService.findBySessionId(sessionId);
 
         if (paymentService.isSessionPaid(sessionId)) {
+            messagingService.sendMessageToUser(
+                    "invalid payment",
+                    userService.findUserByPaymentId(payment.getId()));
             return "invalid payment";
         }
 
@@ -77,7 +80,10 @@ public class PaymentController {
         paymentService.update(payment);
 
         messagingService.sendMessageToUser(
-                "Your payment was successful!",
+                "Your payment for car %s %s was successful!\namount: %s".formatted(
+                                payment.getRental().getCar().getBrand(),
+                                payment.getRental().getCar().getModel(),
+                                payment.getPaymentAmount()),
                 userService.findUserByPaymentId(payment.getId()));
 
         return "Your payment was successful!";

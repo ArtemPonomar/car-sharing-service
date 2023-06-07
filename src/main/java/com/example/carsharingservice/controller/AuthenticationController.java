@@ -32,8 +32,7 @@ public class AuthenticationController {
                 userRegistrationRequestDto.getEmail(),
                 userRegistrationRequestDto.getPassword(),
                 userRegistrationRequestDto.getFirstName(),
-                userRegistrationRequestDto.getLastName(),
-                userRegistrationRequestDto.getTelegramId()
+                userRegistrationRequestDto.getLastName()
         );
     }
 

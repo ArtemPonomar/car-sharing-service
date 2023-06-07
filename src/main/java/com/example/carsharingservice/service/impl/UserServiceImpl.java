@@ -2,6 +2,7 @@ package com.example.carsharingservice.service.impl;
 
 import com.example.carsharingservice.exception.DataException;
 import com.example.carsharingservice.model.User;
+import com.example.carsharingservice.repository.PaymentRepository;
 import com.example.carsharingservice.repository.UserRepository;
 import com.example.carsharingservice.service.UserService;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PaymentRepository paymentRepository;
 
     @Override
     public User add(User car) {
@@ -48,6 +50,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByPaymentId(Long paymentId) {
-        return userRepository.findUserByPaymentId(paymentId);
+        return paymentRepository.findByRentalId(paymentId).getRental().getUser();
     }
 }
