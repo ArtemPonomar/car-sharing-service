@@ -1,13 +1,23 @@
 package com.example.carsharingservice.service.impl;
 
+import com.example.carsharingservice.dto.mapper.impl.PaymentMapper;
+import com.example.carsharingservice.dto.request.PaymentInfoRequestDto;
+import com.example.carsharingservice.dto.request.PaymentRequestDto;
+import com.example.carsharingservice.dto.response.PaymentResponseDto;
 import com.example.carsharingservice.model.Payment;
 import com.example.carsharingservice.service.PaymentService;
 import com.example.carsharingservice.service.StripeService;
 import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +26,7 @@ public class StripeServiceImpl implements StripeService {
     @Value("${STRIPE_SECRET_KEY}")
     private String stripeSecretKey;
     private final PaymentService paymentService;
+    private final PaymentMapper mapper;
 
     @Override
     public SessionCreateParams createPaymentSession(Long rentalId, Payment.Type type) {
@@ -45,5 +56,27 @@ public class StripeServiceImpl implements StripeService {
         );
         SessionCreateParams params = builder.build();
         return params;
+    }
+
+    @Override
+    public PaymentResponseDto getPaymentFromSession(SessionCreateParams params,
+                                                    PaymentInfoRequestDto paymentInfoRequestDto) {
+        try {
+            Session session = Session.create(params);
+            String sessionUrl = session.getUrl();
+            String sessionId = session.getId();
+            BigDecimal amountToPay = BigDecimal.valueOf(session.getAmountTotal());
+            PaymentRequestDto requestDto = new PaymentRequestDto();
+            requestDto.setSessionId(sessionId);
+            requestDto.setUrl(new URL(sessionUrl));
+            requestDto.setType(paymentInfoRequestDto.getType());
+            requestDto.setStatus(Payment.Status.PENDING);
+            requestDto.setPaymentAmount(amountToPay.divide(BigDecimal.valueOf(100)));
+            requestDto.setRentalId(paymentInfoRequestDto.getRentalId());
+
+            return mapper.toDto(paymentService.save(mapper.toModel(requestDto)));
+        } catch (StripeException | MalformedURLException e) {
+            throw new RuntimeException("Can't get payment page.", e);
+        }
     }
 }

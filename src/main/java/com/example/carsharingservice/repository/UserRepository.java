@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
+
     @Query("SELECT p FROM Payment p "
             + "JOIN FETCH p.rental r "
             + "JOIN FETCH r.user "
