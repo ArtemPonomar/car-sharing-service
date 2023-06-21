@@ -32,15 +32,15 @@ public class CarServiceImpl implements CarService {
     @Override
     public void update(Car car) {
         Optional<Car> optionalCar = carRepository.findById(car.getId());
-
-        if (optionalCar.isPresent()) {
-            Car updateCar = optionalCar.get();
-            updateCar.setCarType(car.getCarType());
-            updateCar.setDailyFee(car.getDailyFee());
-            updateCar.setBrand(car.getBrand());
-            updateCar.setModel(car.getModel());
-            carRepository.save(updateCar);
+        if (optionalCar.isEmpty()) {
+           throw new RuntimeException("Car not found: " + car);
         }
+        Car updateCar = optionalCar.get();
+        updateCar.setCarType(car.getCarType());
+        updateCar.setDailyFee(car.getDailyFee());
+        updateCar.setBrand(car.getBrand());
+        updateCar.setModel(car.getModel());
+        carRepository.save(updateCar);
     }
 
     @Override
