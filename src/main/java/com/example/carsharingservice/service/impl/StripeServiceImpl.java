@@ -11,22 +11,21 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class StripeServiceImpl implements StripeService {
     private static final String PAYMENT_URL = "http://localhost:6868/payments";
-    @Value("${STRIPE_SECRET_KEY}")
-    private String stripeSecretKey;
     private final PaymentService paymentService;
     private final PaymentMapper mapper;
+    @Value("${STRIPE_SECRET_KEY}")
+    private String stripeSecretKey;
 
     @Override
     public SessionCreateParams createPaymentSession(Long rentalId, Payment.Type type) {
@@ -40,16 +39,19 @@ public class StripeServiceImpl implements StripeService {
         builder.addLineItem(
                 new SessionCreateParams.LineItem.Builder()
                         .setPriceData(
-                           new SessionCreateParams.LineItem.PriceData.Builder()
-                              .setCurrency("usd")
-                              .setProductData(
-                                new SessionCreateParams.LineItem.PriceData.ProductData.Builder()
-                                  .setName("Car Rental Payment")
-                                  .build()
-                                  )
-                                  .setUnitAmount(
-                                  paymentService.calculatePaymentAmount(rentalId, type).longValue())
-                                  .build()
+                                new SessionCreateParams.LineItem.PriceData.Builder()
+                                        .setCurrency("usd")
+                                        .setProductData(
+                                                new SessionCreateParams.LineItem
+                                                        .PriceData.ProductData.Builder()
+                                                        .setName("Car Rental Payment")
+                                                        .build()
+                                        )
+                                        .setUnitAmount(
+                                                paymentService
+                                                        .calculatePaymentAmount(rentalId, type)
+                                                        .longValue())
+                                        .build()
                         )
                         .setQuantity(1L)
                         .build()

@@ -33,7 +33,7 @@ public class CarServiceImpl implements CarService {
     public void update(Car car) {
         Optional<Car> optionalCar = carRepository.findById(car.getId());
         if (optionalCar.isEmpty()) {
-           throw new RuntimeException("Car not found: " + car);
+            throw new RuntimeException("Car not found: " + car);
         }
         Car updateCar = optionalCar.get();
         updateCar.setCarType(car.getCarType());
