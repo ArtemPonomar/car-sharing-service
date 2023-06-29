@@ -43,23 +43,7 @@ public class PaymentController {
             @RequestBody PaymentInfoRequestDto paymentInfoRequestDto) {
         SessionCreateParams params = stripeService.createPaymentSession(
                 paymentInfoRequestDto.getRentalId(), paymentInfoRequestDto.getType());
-        try {
-            Session session = Session.create(params);
-            String sessionUrl = session.getUrl();
-            String sessionId = session.getId();
-            BigDecimal amountToPay = BigDecimal.valueOf(session.getAmountTotal());
-            PaymentRequestDto requestDto = new PaymentRequestDto();
-            requestDto.setSessionId(sessionId);
-            requestDto.setUrl(new URL(sessionUrl));
-            requestDto.setType(paymentInfoRequestDto.getType());
-            requestDto.setStatus(Payment.Status.PENDING);
-            requestDto.setPaymentAmount(amountToPay.divide(BigDecimal.valueOf(100)));
-            requestDto.setRentalId(paymentInfoRequestDto.getRentalId());
-
-            return mapper.toDto(paymentService.save(mapper.toModel(requestDto)));
-        } catch (StripeException | MalformedURLException e) {
-            throw new RuntimeException("Can't get payment page.", e);
-        }
+         return stripeService.getPaymentFromSession(params, paymentInfoRequestDto);
     }
 
     @GetMapping("/success")
