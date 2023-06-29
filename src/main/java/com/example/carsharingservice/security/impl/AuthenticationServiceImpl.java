@@ -21,10 +21,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public User register(String email,
                          String password,
                          String firstName,
-                         String lastName,
-                         Long telegramId) {
+                         String lastName) {
         User user = new User();
-        user.setTelegramId(telegramId);
         user.setRole(User.Role.CUSTOMER);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));

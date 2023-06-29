@@ -47,7 +47,7 @@ public class RentalServiceImpl implements RentalService {
 
     @Scheduled(cron = "0 0 */1 * * *")
     public void checkOverdueRentals() {
-        rentalRepository.findOverdueRentals(LocalDateTime.now()).forEach(r ->
+        rentalRepository.findOverdueRentals().forEach(r ->
                 messagingService.sendMessageToUser(
                         ("Your vehicle rent for %s %s is overdue since %s.\n "
                                 + "See rental with id:%d for details.")
