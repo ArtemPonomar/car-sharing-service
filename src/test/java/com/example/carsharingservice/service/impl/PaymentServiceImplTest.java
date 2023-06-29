@@ -6,9 +6,11 @@ import com.example.carsharingservice.repository.PaymentRepository;
 import com.example.carsharingservice.service.PaymentHandler;
 import com.example.carsharingservice.service.PaymentHandlerStrategy;
 import com.example.carsharingservice.service.RentalService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
@@ -19,19 +21,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class PaymentServiceImplTest {
+    private static PaymentServiceImpl paymentService;
+    private static PaymentRepository paymentRepository;
+    private static RentalService rentalService;
+    private static PaymentHandlerStrategy strategy;
 
-    private PaymentServiceImpl paymentService;
-
-    @Mock
-    private PaymentRepository paymentRepository;
-    @Mock
-    private RentalService rentalService;
-    @Mock
-    private PaymentHandlerStrategy strategy;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    @BeforeAll
+    static void beforeAll() {
+        paymentRepository = Mockito.mock(PaymentRepository.class);
+        rentalService = Mockito.mock(RentalService.class);
+        strategy = Mockito.mock(PaymentHandlerStrategy.class);
         paymentService = new PaymentServiceImpl(paymentRepository, rentalService, strategy);
     }
 

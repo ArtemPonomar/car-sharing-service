@@ -4,9 +4,11 @@ import com.example.carsharingservice.model.Car;
 import com.example.carsharingservice.model.Rental;
 import com.example.carsharingservice.repository.RentalRepository;
 import com.example.carsharingservice.service.MessagingService;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
@@ -18,18 +20,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class RentalServiceImplTest {
+    private static RentalRepository rentalRepository;
+    private static MessagingService messagingService;
+    private static RentalServiceImpl rentalService;
 
-    @Mock
-    private RentalRepository rentalRepository;
-
-    @Mock
-    private MessagingService messagingService;
-
-    private RentalServiceImpl rentalService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    @BeforeAll
+    static void beforeAll() {
+        rentalRepository = Mockito.mock(RentalRepository.class);
+        messagingService = Mockito.mock(MessagingService.class);
         rentalService = new RentalServiceImpl(rentalRepository, messagingService);
     }
 
