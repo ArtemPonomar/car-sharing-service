@@ -40,8 +40,6 @@ class AuthenticationControllerTest {
         userRegistrationRequestDto.setPassword("password123");
         userRegistrationRequestDto.setFirstName("John");
         userRegistrationRequestDto.setLastName("Doe");
-        userRegistrationRequestDto.setRole(User.Role.CUSTOMER);
-        userRegistrationRequestDto.setTelegramId(123456L);
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userRegistrationRequestDto)))

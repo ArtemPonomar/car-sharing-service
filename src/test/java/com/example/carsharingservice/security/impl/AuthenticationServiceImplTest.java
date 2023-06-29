@@ -36,7 +36,7 @@ class AuthenticationServiceImplTest {
         when(userService.add(any(User.class))).thenReturn(user);
         when(passwordEncoder.encode(any(String.class))).thenReturn("encodedPassword");
 
-        User result = authenticationService.register("email@example.com", "password", "firstName", "lastName", 123L);
+        User result = authenticationService.register("email@example.com", "password", "firstName", "lastName");
         assertEquals(user.getEmail(), result.getEmail());
     }
 
