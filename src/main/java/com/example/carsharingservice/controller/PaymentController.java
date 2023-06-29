@@ -5,8 +5,10 @@ import com.example.carsharingservice.dto.request.PaymentInfoRequestDto;
 import com.example.carsharingservice.dto.request.PaymentRequestDto;
 import com.example.carsharingservice.dto.response.PaymentResponseDto;
 import com.example.carsharingservice.model.Payment;
+import com.example.carsharingservice.service.MessagingService;
 import com.example.carsharingservice.service.PaymentService;
 import com.example.carsharingservice.service.StripeService;
+import com.example.carsharingservice.service.UserService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
@@ -32,6 +34,8 @@ public class PaymentController {
     private final StripeService stripeService;
     private final PaymentService paymentService;
     private final PaymentMapper mapper;
+    private final MessagingService messagingService;
+    private final UserService userService;
 
     @PostMapping
     @Operation(summary = "Create payment session and get URL for payment")
@@ -39,23 +43,7 @@ public class PaymentController {
             @RequestBody PaymentInfoRequestDto paymentInfoRequestDto) {
         SessionCreateParams params = stripeService.createPaymentSession(
                 paymentInfoRequestDto.getRentalId(), paymentInfoRequestDto.getType());
-        try {
-            Session session = Session.create(params);
-            String sessionUrl = session.getUrl();
-            String sessionId = session.getId();
-            BigDecimal amountToPay = BigDecimal.valueOf(session.getAmountTotal());
-            PaymentRequestDto requestDto = new PaymentRequestDto();
-            requestDto.setSessionId(sessionId);
-            requestDto.setUrl(new URL(sessionUrl));
-            requestDto.setType(paymentInfoRequestDto.getType());
-            requestDto.setStatus(Payment.Status.PENDING);
-            requestDto.setPaymentAmount(amountToPay.divide(BigDecimal.valueOf(100)));
-            requestDto.setRentalId(paymentInfoRequestDto.getRentalId());
-
-            return mapper.toDto(paymentService.save(mapper.toModel(requestDto)));
-        } catch (StripeException | MalformedURLException e) {
-            throw new RuntimeException("Can't get payment page.", e);
-        }
+         return stripeService.getPaymentFromSession(params, paymentInfoRequestDto);
     }
 
     @GetMapping("/success")

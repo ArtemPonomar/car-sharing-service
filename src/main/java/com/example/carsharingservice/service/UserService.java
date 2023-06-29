@@ -15,4 +15,6 @@ public interface UserService {
     User update(User user);
 
     List<User> getAll();
+
+    User findUserByPaymentId(Long paymentId);
 }

@@ -15,7 +15,7 @@ services:
     depends_on:
       - mysqldb
     restart: on-failure
-    image: artemgrunin/car-sharing-app
+    image: yurihhh/car-sharing-app
     build: .
     env_file: ./.env
     ports:
