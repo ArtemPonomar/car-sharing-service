@@ -2,20 +2,14 @@ package com.example.carsharingservice.controller;
 
 import com.example.carsharingservice.dto.mapper.impl.PaymentMapper;
 import com.example.carsharingservice.dto.request.PaymentInfoRequestDto;
-import com.example.carsharingservice.dto.request.PaymentRequestDto;
 import com.example.carsharingservice.dto.response.PaymentResponseDto;
 import com.example.carsharingservice.model.Payment;
 import com.example.carsharingservice.service.MessagingService;
 import com.example.carsharingservice.service.PaymentService;
 import com.example.carsharingservice.service.StripeService;
 import com.example.carsharingservice.service.UserService;
-import com.stripe.exception.StripeException;
-import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import io.swagger.v3.oas.annotations.Operation;
-import java.math.BigDecimal;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +37,7 @@ public class PaymentController {
             @RequestBody PaymentInfoRequestDto paymentInfoRequestDto) {
         SessionCreateParams params = stripeService.createPaymentSession(
                 paymentInfoRequestDto.getRentalId(), paymentInfoRequestDto.getType());
-         return stripeService.getPaymentFromSession(params, paymentInfoRequestDto);
+        return stripeService.getPaymentFromSession(params, paymentInfoRequestDto);
     }
 
     @GetMapping("/success")

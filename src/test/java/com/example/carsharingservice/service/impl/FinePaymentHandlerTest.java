@@ -3,6 +3,7 @@ package com.example.carsharingservice.service.impl;
 import com.example.carsharingservice.model.Car;
 import com.example.carsharingservice.model.Payment;
 import com.example.carsharingservice.model.Rental;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class FinePaymentHandlerTest {
 
     private static final BigDecimal FINE_MULTIPLIER = BigDecimal.valueOf(1.4);
-    private FinePaymentHandler finePaymentHandler;
+    private static FinePaymentHandler finePaymentHandler;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void beforeAll() {
         finePaymentHandler = new FinePaymentHandler();
     }
 

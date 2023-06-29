@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import com.example.carsharingservice.model.Car;
 import com.example.carsharingservice.repository.CarRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,11 +17,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class CarServiceImplTest {
-    private CarRepository carRepository;
-    private CarServiceImpl carService;
+    private static CarRepository carRepository;
+    private static CarServiceImpl carService;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void beforeAll() {
         carRepository = Mockito.mock(CarRepository.class);
         carService = new CarServiceImpl(carRepository);
     }
